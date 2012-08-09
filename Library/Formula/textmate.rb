@@ -12,10 +12,7 @@ class Textmate < Formula
   depends_on 'multimarkdown'
 
   def install
-    system "export builddir=`brew --cellar`/textmate ; ./configure && ninja; cp -r /usr/local/Cellar/textmate/Applications/TextMate/TextMate.app ~/Applications"
-  end
-
-  def test
-    system "echo success"
+    ENV['builddir'] = '`brew --cellar`/textmate'
+    system "./configure && ninja"
   end
 end
