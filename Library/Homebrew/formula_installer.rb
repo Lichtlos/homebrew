@@ -16,7 +16,7 @@ class FormulaInstaller
     @f = ff
     @tab = tab
     @show_header = true
-    @ignore_deps = ARGV.include? '--ignore-dependencies' || ARGV.interactive?
+    @ignore_deps = ARGV.ignore_deps? || ARGV.interactive?
     @install_bottle = install_bottle? ff
 
     check_install_sanity
@@ -24,8 +24,7 @@ class FormulaInstaller
 
   def check_install_sanity
     if f.installed?
-      keg = Keg.new(f.installed_prefix)
-      raise CannotInstallFormulaError, "#{f}-#{keg.version} already installed"
+      raise CannotInstallFormulaError, "#{f}-#{f.installed_version} already installed"
     end
 
     # Building head-only without --HEAD is an error
