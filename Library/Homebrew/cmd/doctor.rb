@@ -973,6 +973,21 @@ end
     EOS
   end
 
+  def check_for_latest_xquartz
+    quartz = MacOS::XQuartz.version
+    return unless quartz
+    return if MacOS::XQuartz.provided_by_apple?
+
+    quartz = Version.new(quartz)
+    latest = Version.new(MacOS::XQuartz.latest_version)
+
+    return if quartz >= latest
+
+    <<-EOS.undent
+      Your XQuartz (#{quartz}) is outdated
+      Please install XQuartz #{latest}.
+    EOS
+  end
 end # end class Checks
 
 module Homebrew extend self
